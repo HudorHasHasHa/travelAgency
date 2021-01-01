@@ -4,7 +4,7 @@ import styles from './OrderOption.scss';
 import PropTypes from 'prop-types';
 
 
-const OrderOptionDropdown = ({values, required, currentValue, setOptionValue}) => (
+const OrderOptionDropdown = ({setOptionValue, values, required, currentValue}) => (
   <select
     className={styles.dropdown}
     value={currentValue}

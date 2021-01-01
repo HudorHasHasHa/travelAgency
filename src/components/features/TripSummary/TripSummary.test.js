@@ -63,7 +63,7 @@ describe('Component TripSummary', () => {
   it('tests if tags prop is false or an empty array', () => {
     const falseTags = undefined;
     const falseComponent = shallow(<TripSummary {...propsy} tags={falseTags}/>);
-    const renderedFalseComponent = falseComponent.find('div .tags').exists();
+    const renderedFalseComponent = falseComponent.find('.tags').exists();
     expect(renderedFalseComponent).toBeFalsy();
 
     const emptyTags = [];
