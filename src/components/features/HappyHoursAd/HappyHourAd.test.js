@@ -1,6 +1,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 import HappyHourAd from './HappyHourAd';
+import {happyHoursTimeFormat} from '../../../utils/formatTime';
 
 const select = {
   title: '.title',
@@ -27,6 +28,11 @@ const mockDate = customDate => class extends Date {
     return (new Date(customDate)).getTime();
   }
 };
+
+beforeAll(() => {
+  const utilsModule = jest.requireActual('../../../utils/formatTime.js');
+  utilsModule.formatTime = jest.fn(seconds => seconds);
+});
 
 describe ('Component HappyHourAd ', () => {
 
@@ -62,9 +68,9 @@ const checkDescriptionAtTime = (time, expectedDescription) => (
 );
 
 describe('Component HappyHourAd with mocked Date', () => {
-  checkDescriptionAtTime('11:57:58', '122');
-  checkDescriptionAtTime('11:59:59', '1');
-  checkDescriptionAtTime('13:00:00', 23 * 60 * 60 + '');
+  checkDescriptionAtTime('11:57:58', happyHoursTimeFormat(122));
+  checkDescriptionAtTime('11:59:59', happyHoursTimeFormat(1));
+  checkDescriptionAtTime('13:00:00', happyHoursTimeFormat(23 * 60 * 60));
 });
 
 const checkDescriptionAfterTime = (time, expectedDescription, delay) => {
@@ -87,9 +93,9 @@ const checkDescriptionAfterTime = (time, expectedDescription, delay) => {
 };
 
 describe('Component HappyHourAd with mocked Date and delay', () => {
-  checkDescriptionAfterTime('11:57:58', '120', 2);
-  checkDescriptionAfterTime('11:59:58', '1', 1);
-  checkDescriptionAfterTime('13:00:00', 22 * 60 * 60 + '', 60 * 60);
+  checkDescriptionAfterTime('11:57:58', happyHoursTimeFormat(120), 2);
+  checkDescriptionAfterTime('11:59:58', happyHoursTimeFormat(1), 1);
+  checkDescriptionAfterTime('13:00:00', happyHoursTimeFormat(22 * 60 * 60), 60 * 60);
 });
 
 const checkPromoDescription = (time, expectedDescription) => (
@@ -105,11 +111,11 @@ const checkPromoDescription = (time, expectedDescription) => (
 );
 
 describe('Component HappyHourAd display info about promotion', () => {
-  checkPromoDescription('11:59:59', '1');
+  checkPromoDescription('11:59:59', happyHoursTimeFormat(1));
   checkPromoDescription('12:00:00', 'Lorem ipsum');
   checkPromoDescription('12:30:00', 'Lorem ipsum');
   checkPromoDescription('12:59:59', 'Lorem ipsum');
-  checkPromoDescription('13:00:01', 23*60*60-1+'');
+  checkPromoDescription('13:00:01', happyHoursTimeFormat(23*60*60-1));
 });
 
 
@@ -136,5 +142,4 @@ describe('Component HappyHourAd display info about promotion with delay', () => 
   checkDescriptionAfterTime('11:59:58', 'Lorem ipsum', 2);
   checkDescriptionAfterTime('11:59:54', 'Lorem ipsum', 7);
 });
-
 

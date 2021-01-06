@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './HappyHourAd.scss';
 import PropTypes from 'prop-types';
+import {happyHoursTimeFormat} from '../../../utils/formatTime';
 
 class HappyHourAd extends React.Component{
   constructor(){
@@ -24,23 +25,6 @@ class HappyHourAd extends React.Component{
     return Math.round((nextNoon.getTime() - currentTime.getTime())/1000);
   }
 
-  // happyHoursDisplay() {
-  //   const time = this.getCountdownTime();
-  //   if(time < (23 * 60 * 60 * 1000)){
-  //     return this.getCountdownTime();
-  //   }else{
-  //     return this.promoDescription;
-  //   }
-  // }
-
-  // happyHoursTimeFormat(time){
-  //   const happyhour = time;
-  //   const tab = [];
-  //   tab.push( Math.floor(happyhour%60),  Math.floor(happyhour/60%60),  Math.floor(happyhour/3600));
-  //   // const final = tab.map( element => `${element+100}`.substring(1));
-  //   return tab[2] + ':' + tab[1] + ':' + tab[0];
-  // }
-
   render() {
     const time = this.getCountdownTime();
     const {title, promoDescription} = this.props;
@@ -51,7 +35,7 @@ class HappyHourAd extends React.Component{
         {(time > 23*60*60 ) ?
           (<div className={styles.promoDescription}>{promoDescription}</div>)
           :
-          (<div className={styles.promoDescription}>{(time)}</div>)
+          (<div className={styles.promoDescription}>{happyHoursTimeFormat(time)}</div>)
         }
       </div>
     );
